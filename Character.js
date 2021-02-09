@@ -1,3 +1,5 @@
+
+
 /**
  *  Cada uno de los personajes del juego, es decir, aquellos elementos que tienen “vida”.
  *  @extends Entity

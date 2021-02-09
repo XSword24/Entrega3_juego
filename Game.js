@@ -17,6 +17,8 @@ class Game {
         this.opponentShots = []; // Disparos del oponente
         this.xDown = null; //  Posición en la que el usuario ha tocado la pantalla
         this.paused = false; // Indica si el juego está pausado
+        this.score = SCORE;
+
     }
 
     /**
@@ -80,8 +82,17 @@ class Game {
      * Elimina al oponente del juego
      */
     removeOpponent () {
+        
+        if(this.opponent instanceof Opponent){
+            this.opponent = new Boss(this)
+        }else if(this.opponent instanceof Boss){
+            this.endGame();
+        }else{
         this.opponent = undefined;
+        }
     }
+
+
 
     /**
      * Comprueba la tecla que está pulsando el usuario
@@ -198,9 +209,23 @@ class Game {
      */
     endGame () {
         this.ended = true;
-        let gameOver = new Entity(this, this.width / 2, "auto", this.width / 4, this.height / 4, 0, GAME_OVER_PICTURE)
+        //let gameOver = new Entity(this, this.width / 2, "auto", this.width / 4, this.height / 4, 0,this.player.lives > 0 ? YOU_WIN_PICTURE : GAME_OVER_PICTURE );
+
+        if(this.player.lives === 0){
+            
+        let gameOver = new Entity(this, this.width / 2, "auto", this.width / 4, this.height / 4, 0, GAME_OVER_PICTURE );
+        
         gameOver.render();
-    }
+        }else{
+        let gameOver = new Entity(this, this.width / 2, "auto", this.width / 4, this.height / 4, 0, YOU_WIN_PICTURE  );
+        gameOver.render();
+         }
+
+        //gameOver.render();
+       
+         
+}
+
 
     /**
      * Actualiza los elementos del juego
@@ -237,5 +262,17 @@ class Game {
         this.opponentShots.forEach((shot) => {
             shot.render();
         });
+
+        this.Puntiacion();
+        this.Vidas();
+    }
+
+    Puntiacion (){
+        document.getElementById('scoreli').innerHTML = "Score: " + this.score;
+
+    }
+
+    Vidas (){
+        document.getElementById("livesli").innerHTML = "Lives: " + this.player.lives;
     }
 }

@@ -65,6 +65,8 @@ shoot () {
     die() {
         
         if (!this.dead) {
+            this.myImage.src = this.myImageDead;
+            this.game.score++;
             setTimeout(() => {
                 this.game.removeOpponent();
             }, 2000);
